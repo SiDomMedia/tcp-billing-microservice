@@ -220,7 +220,10 @@ async def create_subscription(
     await db.commit()
     await db.refresh(new_subscription)
     
-    # TODO: Phase 2.7 - Publish subscription.created event here
+    # --- Phase 2.7: Publish subscription.created event ---
+    print(f"EVENT PUBLISHED: subscription.created for Sub ID: {new_subscription.id}")
+    # In a production environment, this would call a Service Bus client:
+    # service_bus_client.publish_subscription_created(new_subscription)
     
     return subscription_to_response(new_subscription)
 
@@ -272,7 +275,10 @@ async def update_subscription(
     updated_subscription_result = await db.execute(select(Subscription).where(Subscription.id == subscriptionId))
     updated_subscription = updated_subscription_result.scalars().first()
     
-    # TODO: Phase 2.7 - Publish subscription.updated event here
+    # --- Phase 2.7: Publish subscription.updated event ---
+    print(f"EVENT PUBLISHED: subscription.updated for Sub ID: {updated_subscription.id}")
+    # In a production environment, this would call a Service Bus client:
+    # service_bus_client.publish_subscription_updated(updated_subscription)
     
     return subscription_to_response(updated_subscription)
 
